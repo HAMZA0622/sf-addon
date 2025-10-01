@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_collection_set_form_view" model="ir.ui.view">
+            <field name="name">product.collection.set.form.view</field>
+            <field name="model">product.collection.set</field>
+            <field name="arch" type="xml">
+                <form>
+                     <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" string="Go to Website" name="action_go_to_website" type="object" icon="fa-globe">
+                        </button>
+                    </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="description"/>
+                                <field name="website_link"/>
+                            </group>
+                            <group>
+                                <field name="collection_pdf"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Related Collections">
+                                <field name="child_ids">
+                                    <list editable="bottom">
+                                         <field name="name"/>
+                                        <field name="description"/>
+                                        <field name="collection_pdf"/>
+                                        <field name="sequence"/>
+                                        <field name="website_link"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                        
+                        <chatter/>
+                    </form>
+            </field>
+        </record>
+
+        <record id="product_collection_set_list_view" model="ir.ui.view">
+            <field name="name">product.collection.set.list.view</field>
+            <field name="model">product.collection.set</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="parent_id"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="product_collection_set_action" model="ir.actions.act_window">
+            <field name="name">Product Collection</field>
+            <field name="res_model">product.collection.set</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new collection
+                </p>
+            </field>
+        </record>
+
+        <menuitem
+                id="menu_product_collection_set"
+                name="Product Collections"
+                parent="sale.product_menu_catalog"
+                action="product_collection_set_action"
+                sequence="23"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,74 @@
+<odoo>
+    <template id="collection_page_template" name="Product Collection Page">
+        <t t-call="website.layout">
+            <!-- Full-Screen Banner -->
+            <div t-att-class="'banner-container mb-5 ' + ('d-none' if collection.hide_image else '')">
+                <img t-att-src="'/web/image/%s/%s/image' % ('product.collection.set', collection.id)"
+                     class="banner-image"/>
+            </div>
+
+            <!-- Collection and Product Section -->
+            <div class="container" style="padding-left: 8%; padding-right: 8%; margin-top:100px;">
+                <h3 class="text-center mb-2 text-uppercase">
+                    <span style="font-weight: bold;">
+                        <t t-esc="collection.name"/>
+                    </span>
+                    <span style="font-weight: 400;">Collection</span>
+                </h3>
+                <hr class="my-2"/>
+                <div class="text-center mb-3">
+                    <a t-att-href="'/web/content/%s' % collection.related_collection_pdf_attachment_id.id"
+                       target="_blank" class="btn btn-link" style="font-size: small; color: red;">
+                        View all
+                        <t t-esc="collection.name"/>
+                        Collection Sheet
+                    </a>
+                </div>
+
+                <!-- Product Template Grid -->
+              <t t-if="collection.child_ids">
+                    <t t-foreach="collection.child_ids.sorted(key=lambda r: r.sequence)" t-as="subcol" t-key="subcol.id">
+                        <!-- Sub Collection Title -->
+                        <h4 class="mt-5 mb-3 text-uppercase text-center">
+                            <t t-esc="subcol.name"/>
+                        </h4>
+                        <div class="row justify-content-center" style="margin-top:30px;">
+                            <t t-foreach="subcol.product_template_ids.sorted(key=lambda r: r.website_sequence)" t-as="product" t-key="product.id">
+                                <div class="col-lg-4 col-md-6 col-sm-12 mb-5 d-flex justify-content-center">
+                                    <a t-att-href="'/shop/product/' + str(product.id)">
+                                        <div class="product-card">
+                                            <img t-att-src="('/web/image/product.template/' + str(product.id) + '/image_1920')"
+                                                 class="product-image" alt="Product Image"/>
+                                            <div class="product-title">
+                                                <t t-esc="product.name"/>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+
+                <!-- CASE 2: If no sub-collections, show products of current collection -->
+                <t t-else="">
+                    <div class="row justify-content-center" style="margin-top:50px;">
+                        <t t-foreach="collection.product_template_ids.sorted(key=lambda r: r.website_sequence)" t-as="product" t-key="product.id">
+                            <div class="col-lg-4 col-md-6 col-sm-12 mb-5 d-flex justify-content-center">
+                                <a t-att-href="'/shop/product/' + str(product.id)">
+                                    <div class="product-card">
+                                        <img t-att-src="('/web/image/product.template/' + str(product.id) + '/image_1920')"
+                                             class="product-image" alt="Product Image"/>
+                                        <div class="product-title">
+                                            <t t-esc="product.name"/>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="inherited_alternative_products" inherit_id="website_sale.alternative_products">
+        <xpath expr="//div[@id='oe_structure_website_sale_recommended_products']" position="attributes">
+            <attribute name="style">display: none !important;</attribute>
+        </xpath>
+    </template>
+
+    <template id="inherited_product" inherit_id="website_sale.product">
+        <xpath expr="//div[@id='product_detail_main']/div[1]" position="after">
+            <div class="custom-notice">
+                Photos are for reference only. Lighting will affect the look of materials. Please order samples for an
+                accurate depiction of finishes.
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='product_details']" position="attributes">
+            <attribute name="style">display: none !important;</attribute>
+        </xpath>
+
+        <xpath expr="//div[@id='product_details']" position="attributes">
+            <attribute name="style">display: none !important;</attribute>
+        </xpath>
+
+        <xpath expr="//div[contains(@t-attf-class, 'o_wsale_product_images')]" position="attributes">
+            <attribute name="style">width: 100%;</attribute>
+        </xpath>
+
+
+        <!-- Adding the new sections -->
+        <xpath expr="//section[@id='product_detail']" position="after">
+            <section id="product_dimension_details" class="container mt-5">
+                <div class="row">
+                    <hr class="my-4"/>
+
+                    <!--                   Section 2: Finishes Options section start-->
+
+                    <div class="col-lg-8 col-md-12">
+                        <div class="row" id="custom_product_details">
+                            <h4 class="custom-heading">FINISHES OPTIONS</h4>
+                            <div class="col">
+                                <t t-call="custom_product_detail.custom_variants">
+                                    <t t-set="ul_class" t-valuef="flex-column"/>
+                                    <t t-set="parent_combination" t-value="None"/>
+                                    <t t-set="combination" t-value="combination_info['combination']"/>
+                                </t>
+                            </div>
+                        </div>
+                        <!--                     Section 2:   Finishes Options section end-->
+
+                        <!-- Section 4: Dimensions -->
+                        <div id="product_dimension" class="row" t-if="not product.hide_dimension">
+                            <t t-if="product.is_multiple_dimension">
+                                <hr class="my-4" style="width: 100%; margin-left: auto; margin-right: auto;"/>
+                                <div class="col-12">
+                                    <h4 class="custom-heading">Dimensions</h4>
+                                </div>
+                                <t t-foreach="product.dimension_set_ids.sorted(key=lambda l: l.sequence)" t-as="dimension_set" t-key="dimension_set.id">
+                                    <div class="row mt-3">
+ 
+                                        <div class="col-lg-4 col-md-4 col-12">
+                                            <h4>
+                                                <t t-esc="dimension_set.name"/>
+                                            </h4>
+                                            <ul class="list-unstyled">
+                                                <li t-if="dimension_set.d_width">
+                                                            Width:
+                                                    <span>
+                                                        <t t-esc="dimension_set.d_width"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="dimension_set.d_length">
+                                                            Length:
+                                                    <span>
+                                                        <t t-esc="dimension_set.d_length"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="dimension_set.d_depth">
+                                                            Depth:
+                                                    <span>
+                                                        <t t-esc="dimension_set.d_depth"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="dimension_set.d_height">
+                                                            Height:
+                                                    <span>
+                                                        <t t-esc="dimension_set.d_height"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="dimension_set.d_thickness">
+                                                            Thickness:
+                                                    <span>
+                                                        <t t-esc="dimension_set.d_thickness"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="dimension_set.d_arm_height">
+                                                            Arm Height:
+                                                    <span>
+                                                        <t t-esc="dimension_set.d_arm_height"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="dimension_set.d_seat_width">
+                                                            Seat Width:
+                                                    <span>
+                                                        <t t-esc="dimension_set.d_seat_width"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="dimension_set.d_seat_depth">
+                                                            Seat Depth:
+                                                    <span>
+                                                        <t t-esc="dimension_set.d_seat_depth"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="dimension_set.d_seat_height">
+                                                            Seat Height:
+                                                    <span>
+                                                        <t t-esc="dimension_set.d_seat_height"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="dimension_set.d_seat_diameter">
+                                                            Seat Diameter:
+                                                    <span>
+                                                        <t t-esc="dimension_set.d_seat_diameter"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="dimension_set.d_diameter">
+                                                            Diameter:
+                                                    <span>
+                                                        <t t-esc="dimension_set.d_diameter"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="dimension_set.d_weight">
+                                                            Weight:
+                                                    <span>
+                                                        <t t-esc="dimension_set.d_weight"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="dimension_set.d_stackability">
+                                                            Stackability:
+                                                    <span>
+                                                        <t t-esc="dimension_set.d_stackability"/>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <t t-if="dimension_set.d_img_1">
+                                            <div class="col-lg-4 col-md-4 col-12 mt-5">
+                                                <img style="max-height: 300px; width: auto;"
+                                                    t-att-src="'/web/image/dimension.set/' + str(dimension_set.id) +  '/d_img_1'"
+                                                    class="img-fluid rounded"
+                                                    alt="Dimension Image 1"/>
+                                            </div>
+                                        </t>
+                                        <t t-if="dimension_set.d_img_2">
+                                            <div class="col-lg-4 col-md-4 col-12 mt-5">
+                                                <img style="max-height: 300px; width: auto;"
+                                                    t-att-src="'/web/image/dimension.set/' + str(dimension_set.id) +  '/d_img_2'"
+                                                    class="img-fluid rounded"
+                                                    alt="Dimension Image 2"/>
+                                            </div>
+                                        </t>
+                                        <hr t-if="dimension_set_index != len(product.dimension_set_ids)-1" />
+                                    </div>
+                                </t>      
+                            </t>
+                            <t t-else="">
+                                <t t-if="product.d_width or product.d_length or product.d_depth or product.d_height or product.d_thickness or product.d_arm_height or product.d_seat_width or product.d_seat_depth or product.d_seat_height or product.d_seat_diameter or product.d_diameter or product.d_weight or product.d_stackability">
+                                    <hr class="my-4" t-if="product.d_width or product.d_length or product.d_depth or product.d_height or product.d_thickness or product.d_arm_height or product.d_seat_width or product.d_seat_depth or product.d_seat_height or product.d_seat_diameter or product.d_diameter or product.d_weight or product.d_stackability" style="width: 100%; margin-left: auto; margin-right: auto;"/>
+                                    <!-- Dimension Values (1/3 width) -->
+                                    <div class="col-lg-4 col-md-4 col-12">
+                                        <h4 class="custom-heading">Dimensions</h4>
+                                        <div class="mt-4">
+
+                                            <ul class="list-unstyled">
+                                                <li t-if="product.d_width">
+                                                            Width:
+                                                    <span>
+                                                        <t t-esc="product.d_width"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="product.d_length">
+                                                            Length:
+                                                    <span>
+                                                        <t t-esc="product.d_length"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="product.d_depth">
+                                                            Depth:
+                                                    <span>
+                                                        <t t-esc="product.d_depth"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="product.d_height">
+                                                            Height:
+                                                    <span>
+                                                        <t t-esc="product.d_height"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="product.d_thickness">
+                                                            Thickness:
+                                                    <span>
+                                                        <t t-esc="product.d_thickness"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="product.d_arm_height">
+                                                            Arm Height:
+                                                    <span>
+                                                        <t t-esc="product.d_arm_height"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="product.d_seat_width">
+                                                            Seat Width:
+                                                    <span>
+                                                        <t t-esc="product.d_seat_width"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="product.d_seat_depth">
+                                                            Seat Depth:
+                                                    <span>
+                                                        <t t-esc="product.d_seat_depth"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="product.d_seat_height">
+                                                            Seat Height:
+                                                    <span>
+                                                        <t t-esc="product.d_seat_height"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="product.d_seat_diameter">
+                                                            Seat Diameter:
+                                                    <span>
+                                                        <t t-esc="product.d_seat_diameter"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="product.d_diameter">
+                                                            Diameter:
+                                                    <span>
+                                                        <t t-esc="product.d_diameter"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="product.d_weight">
+                                                            Weight:
+                                                    <span>
+                                                        <t t-esc="product.d_weight"/>
+                                                    </span>
+                                                </li>
+                                                <li t-if="product.d_stackability">
+                                                            Stackability:
+                                                    <span>
+                                                        <t t-esc="product.d_stackability"/>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Both Image Available (2/3 width) -->
+                                    <t t-if="product.d_img_1 and product.d_img_2">
+                                        <div class="col-lg-4 col-md-4 col-12 mt-5">
+                                            <img style="max-height: 300px; width: auto;"
+                                                t-att-src="'/web/image/product.template/' + str(product.id) + '/d_img_1'"
+                                                class="img-fluid rounded"
+                                                alt="Dimension Image 1"/>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-12 mt-5">
+                                            <img style="max-height: 300px; width: auto;"
+                                                t-att-src="'/web/image/product.template/' + str(product.id) + '/d_img_2'"
+                                                class="img-fluid rounded"
+                                                alt="Dimension Image 2"/>
+                                        </div>
+                                    </t>
+
+                                    <!-- If only one image is available (will take 2/3 width) -->
+                                    <t t-if="product.d_img_1 and not product.d_img_2">
+                                        <div class="col-lg-8 col-md-8 col-12 mt-5">
+                                            <img style="max-height: 300px; width: auto;"
+                                                t-att-src="'/web/image/product.template/' + str(product.id) + '/d_img_1'"
+                                                class="img-fluid border rounded shadow-sm"
+                                                alt="Dimension Image 1"/>
+                                        </div>
+                                    </t>
+                                    <t t-if="product.d_img_2 and not product.d_img_1">
+                                        <div class="col-lg-8 col-md-8 col-12 mt-5">
+                                            <img style="max-height: 300px; width: auto;"
+                                                t-att-src="'/web/image/product.template/' + str(product.id) + '/d_img_2'"
+                                                class="img-fluid border rounded shadow-sm"
+                                                alt="Dimension Image 2"/>
+                                        </div>
+                                    </t>
+
+                                </t>
+                            </t>
+                            
+                        </div>
+
+                        <!-- Section 5: Related Products -->
+                        <div id="related_products" class="row mt-5">
+                            <hr class="my-4" style="width: 100%; margin-left: auto; margin-right: auto;"/>
+                            <h4 class="mb-5 custom-heading">Related
+                                Products
+                            </h4>
+                            <t t-set="related_products"
+                               t-value="product.alternative_product_ids[:20]"/>
+                            <t t-if="related_products">
+                                <t t-foreach="related_products" t-as="related_product" t-key="related_product.id">
+                                    <div class="col-lg-4 col-md-6 col-12 mb-4">
+                                        <a t-att-href="'/shop/product/' + str(related_product.id)"
+                                           class="text-decoration-none">
+                                            <div class="card border-0 h-100">
+                                                <img t-att-src="'/web/image/product.template/' + str(related_product.id) + '/image_512'"
+                                                     class="card-img-top"
+                                                     alt="Related Product Image"/>
+                                                <div class="card-body text-center">
+                                                    <h5 class="card-title" t-esc="related_product.name"/>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <p>No related products available.</p>
+                            </t>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Section 3: Details Section -->
+                    <div id="product_additional_details" class="col-lg-4 col-md-12">
+
+                        <!-- Ready to Ship -->
+                        <div t-if="product.is_ready_to_ship" class="mb-3 p-3 border rounded shadow-sm d-flex align-items-center">
+                            <img src="/custom_product_detail/static/img/ready-to-ship.jpeg" class="custom-icon" alt="Ready to Ship"/>
+                            <p class="mb-0 flex-grow-1 icon-box-text">
+                                <strong>Ready to Ship </strong>
+                                <a href="/quick-ship" class="text-decoration-none">View more ready-to-ship items</a>
+                            </p>
+                        </div>
+
+                        <!-- Warranty Protection -->
+                        <div class="mb-3 p-3 border rounded shadow-sm d-flex align-items-center">
+                            <img src="/custom_product_detail/static/img/warranty-protection.jpeg" class="custom-icon" alt="Warranty Protection"/>
+                            <p class="mb-0 flex-grow-1 icon-box-text">
+                                <strong>Warranty Protection </strong>
+                                <a href="/warranty" class="text-decoration-none">Learn more about our product warranty protection</a>
+                            </p>
+                        </div>
+
+                        <!-- Made in USA -->
+                        <div t-if="product.is_made_in_usa" class="mb-3 p-3 border rounded shadow-sm d-flex align-items-center">
+                            <img src="/custom_product_detail/static/img/made-in-usa.jpeg" class="custom-icon" alt="Made in USA"/>
+                            <p class="mb-0 flex-grow-1 icon-box-text">
+                                <strong>Made in USA </strong>
+                                All our products are made in our factory in Miami FL
+                            </p>
+                        </div>
+
+                        <!-- Download Images -->
+                        <div class="mb-3">
+                            <a t-attf-href="/download/product/images/zip/#{product.id}"
+                               class="btn btn-primary btn-block w-100">Download Images
+                            </a>
+                        </div>
+
+                        <!-- Navigation Links -->
+                        <div class="mb-3">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a t-attf-href="/collections/#{product.product_collection_id.id if product.product_collection_id else '#'}"
+                                        class="text-decoration-none text-primary">
+                                    Go back to Collection
+                                    </a>
+                                </li>
+
+                                <!-- Link to Spec Sheet (if attachment exists) -->
+                                <t t-if="product.spec_pdf">
+                                    <li>
+                                        <a t-att-href="'/web/content/' + str(product.related_spec_pdf_attachment_id.id)"
+                                           class="text-decoration-none text-primary" target="_blank">
+                                            View Spec Sheet
+                                        </a>
+                                    </li>
+                                </t>
+
+                                <!-- Link to Collection Sheet (if attachment exists) -->
+                                <t t-if="product.atlantic_collection_pdf">
+                                    <li>
+                                        <a t-att-href="'/web/content/' + str(product.related_atlantic_collection_pdf_attachment_id.id)"
+                                           class="text-decoration-none text-primary" target="_blank">
+                                            View Collection Sheet
+                                        </a>
+                                    </li>
+                                </t>
+                                <t t-elif="product.product_collection_id and product.product_collection_id.collection_pdf">
+                                    <li>
+                                        <a t-att-href="'/web/content/' + str(product.product_collection_id.related_collection_pdf_attachment_id.id)"
+                                           class="text-decoration-none text-primary" target="_blank">
+                                            View Collection Sheet
+                                        </a>
+                                    </li>
+                                </t>
+                                <!-- Link to Table Sheet (if attachment exists) -->
+                                <t t-if="product.show_table_sheet and product.table_sheet_link">
+                                    <li>
+                                        <a t-att-href="product.table_sheet_link"
+                                           class="text-decoration-none text-primary" target="_blank">
+                                            View Table Sheet
+                                        </a>
+                                    </li>
+                                </t>
+                            </ul>
+                        </div>
+
+
+                        <!-- Additional Details -->
+                        <div>
+                            <hr class="my-4"/>
+                            <h4 class="custom-heading">
+                                Details
+                            </h4>
+                            <ul class="list-unstyled">
+                                <li>
+                                    SKU:
+                                    <t t-esc="product.default_code"/>
+                                </li>
+                                <li>
+                                    <t t-esc="product.description_ecommerce"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </xpath>
+    </template>
+
+    <template id="inherit_shop_product_image" inherit_id="website_sale.shop_product_image">
+        <xpath expr="//div[@name='o_img_with_max_suggested_width']" position="attributes">
+            <attribute name="t-options">{
+                    'widget': 'image',
+                    'preview_image': 'image_1920',
+                    'class': 'oe_unmovable product_detail_img w-100',
+                    'alt-field': 'name',
+                    'zoom': product_image.can_image_1024_be_zoomed and 'image_1920',
+                }</attribute>
+        </xpath>
+        <xpath expr="//div[@t-else='']" position="attributes">
+            <attribute name="t-options">{
+                'widget': 'image',
+                'preview_image': 'image_1920',
+                'class': 'oe_unmovable product_detail_img w-100 mh-100',
+                'alt-field': 'name',
+                'zoom': product_image.can_image_1024_be_zoomed and 'image_1920',
+            }</attribute>
+        </xpath>
+
+    </template>
+
+</odoo>

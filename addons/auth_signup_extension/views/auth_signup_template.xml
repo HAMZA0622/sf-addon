@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Extend the default signup fields template -->
+        <template id="fields_template_extended" inherit_id="auth_signup.fields" name="Custom Signup Fields">
+            <!-- Replace the original name field with a hidden combined field -->
+            <xpath expr="//div[hasclass('field-name')]" position="replace">
+                 <t t-if="only_passwords == 1">
+                    <div class="mb-3 field-login">
+                        <label for="login">Your Email</label>
+                        <input type="text" name="login" t-att-value="login" id="login" class="form-control form-control-sm" autofocus="autofocus"
+                            autocapitalize="off" required="required" t-att-readonly="'readonly' if only_passwords else None"/>
+                    </div>
+                    <div class="mb-3 field-name">
+                        <label for="name">Your Name</label>
+                        <input type="text" name="name" t-att-value="name" id="name" class="form-control form-control-sm" placeholder="e.g. John Doe"
+                            required="required" t-att-readonly="'readonly' if only_passwords else None"
+                            t-att-autofocus="'autofocus' if login and not only_passwords else None" />
+                    </div>
+                 </t>
+            </xpath>
+            
+            <!-- Replace email field with first/last name fields and the original email field -->
+            <xpath expr="//div[hasclass('field-login')]" position="replace">
+                <t t-if="only_passwords != 1">
+                    <input type="hidden" name="name" id="combined_name" 
+                        t-att-value="'%s %s' % (first_name or '', last_name or '')"/>
+                    <!-- First Name -->
+                    <div class="mb-3 field-first_name">
+                        <label for="first_name">First Name <span class="text-danger">*</span></label>
+                        <input type="text" 
+                            name="first_name" 
+                            id="first_name"
+                            class="form-control form-control-sm" 
+                            placeholder="e.g. John"
+                            required="required"
+                            t-att-readonly="'readonly' if only_passwords else None"
+                            t-att-autofocus="'autofocus' if (login and not only_passwords) else None"
+                            t-att-value="first_name or ''"/>
+                    </div>
+                    
+                    <!-- Last Name -->
+                    <div class="mb-3 field-last_name">
+                        <label for="last_name">Last Name <span class="text-danger">*</span></label>
+                        <input type="text" 
+                            name="last_name" 
+                            id="last_name"
+                            class="form-control form-control-sm" 
+                            placeholder="e.g. Doe"
+                            required="required"
+                            t-att-readonly="'readonly' if only_passwords else None"
+                            t-att-value="last_name or ''"/>
+                    </div>
+                    
+                    <!-- Preserve the original email field -->
+                    <div class="mb-3 field-login">
+                        <label for="login">E-Mail <span class="text-danger">*</span></label>
+                        <input type="email"  
+                            name="login" 
+                            id="login" 
+                            class="form-control form-control-sm" 
+                            autocapitalize="off" 
+                            required="required"
+                            t-att-readonly="'readonly' if only_passwords else None"
+                            t-att-value="login or ''"/>
+                    </div>
+                    
+                    <!-- Telephone Field -->
+                    <div class="mb-3 field-phone">
+                        <label for="phone">Telephone <span class="text-danger">*</span></label>
+                        <input type="tel"    
+                            name="phone" 
+                            id="phone" 
+                            class="form-control form-control-sm" 
+                            placeholder="e.g. +147367832632" 
+                            required="required"
+                            t-att-value="phone or ''"/>
+                    </div>
+                    
+                    <!-- JavaScript to update combined name field -->
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const updateName = () => {
+                                const firstName = document.getElementById('first_name').value.trim();
+                                const lastName = document.getElementById('last_name').value.trim();
+                                document.getElementById('combined_name').value = `${firstName} ${lastName}`.trim();
+                            };
+                            document.getElementById('first_name').addEventListener('input', updateName);
+                            document.getElementById('last_name').addEventListener('input', updateName);
+                            updateName(); // Initial update
+                        });
+                    </script>
+                
+                </t>
+                    
+            </xpath>
+
+            <!-- Add custom fields before the password field -->
+            <xpath expr="//div[hasclass('field-password')]" position="before">
+                <t t-if="only_passwords != 1">
+                    <!-- Sales Representative Field -->
+                    <div class="mb-3 field-x_dscape_sales_rep">
+                        <label for="x_dscape_sales_rep" class="form-label">Are you currently working with one of our Sales Representatives? If so, who? <span class="text-danger">*</span></label>
+                        <input type="text" 
+                            name="x_dscape_sales_rep" 
+                            id="x_dscape_sales_rep" 
+                            required="required"
+                            placeholder="e.g. Jane Doe" 
+                            class="form-control form-control-sm"
+                            t-att-value="x_dscape_sales_rep or ''"/>
+                    </div>
+                    
+                    <!-- Occupation Field -->
+                    <div class="mb-3 field-x_dscape_occupation">
+                        <label for="x_dscape_occupation" class="form-label">Occupation <span class="text-danger">*</span></label>
+                        <select name="x_dscape_occupation" id="x_dscape_occupation" class="form-select form-select-sm" required="required" t-att-value="x_dscape_occupation or ''">
+                            <option value="">Select</option>
+                            <option value="designer">Designer</option>
+                            <option value="architect">Architect</option>
+                            <option value="engineer">Engineer</option>
+                            <option value="other">Other</option>
+                        </select>
+
+                        <!-- "Other" occupation input: displayed conditionally -->
+                        <div class="form-text mt-1 field-x_dscape_other_occupation" id="x_dscape_other_occupation" t-att-class="'form-text mt-1 ' + ('d-none' if x_dscape_occupation != 'other' else '')">
+                            <input type="text" name="x_dscape_other_occupation" 
+                                class="form-control form-control-sm mt-1"
+                                placeholder="Specify occupation" 
+                                t-att-value="x_dscape_other_occupation or ''" 
+                                t-att-required="'required' if x_dscape_occupation == 'other' else false"/>
+                        </div>
+
+                        <!-- Script to toggle display of "other occupation" input -->
+                        <script>
+                            document.getElementById('x_dscape_occupation').addEventListener('change', function() {
+                                const otherInput = document.getElementById('x_dscape_other_occupation');
+                                if (this.value === 'other') {
+                                    otherInput.classList.remove('d-none');
+                                    otherInput.querySelector('input').setAttribute('required', 'required');
+                                } else {
+                                    otherInput.classList.add('d-none');
+                                    otherInput.querySelector('input').removeAttribute('required');
+                                }
+                            });
+                        </script>
+                    </div>
+                    
+                    <!-- Company Field -->
+                    <div class="mb-3 field-company_name">
+                        <label for="company_name">Company</label>
+                        <input type="text" 
+                            name="company_name" 
+                            id="company_name" 
+                            placeholder="e.g. Your Company" 
+                            class="form-control form-control-sm"
+                            t-att-value="company_name or ''"/>
+                    </div>
+                    
+                    <!-- Standard Address Fields -->
+                    <div class="mb-3 field-street">
+                        <label for="street">Address 1 <span class="text-danger">*</span></label>
+                        <input type="text" 
+                            name="street" 
+                            id="street" 
+                            required="required"
+                            placeholder="e.g. 123 Main St" 
+                            class="form-control form-control-sm"
+                            t-att-value="street or ''"/>
+                    </div>
+                    
+                    <div class="mb-3 field-street2">
+                        <label for="street2">Address 2</label>
+                        <input type="text" 
+                            name="street2" 
+                            id="street2" 
+                            placeholder="e.g. Apartment 4B" 
+                            class="form-control form-control-sm"
+                            t-att-value="street2 or ''"/>
+                    </div>
+                    
+                    <div class="mb-3 field-city">
+                        <label for="city">City <span class="text-danger">*</span></label>
+                        <input type="text" 
+                            name="city" 
+                            id="city" 
+                            required="required"
+                            placeholder="e.g. New York" 
+                            class="form-control form-control-sm"
+                            t-att-value="city or ''"/>
+                    </div>
+                    
+                    <div class="mb-3 field-zip">
+                        <label for="zip">Post Code <span class="text-danger">*</span></label>
+                        <input type="text" 
+                            name="zip" 
+                            id="zip" 
+                            required="required"
+                            placeholder="e.g. 10001" 
+                            class="form-control form-control-sm"
+                            t-att-value=""/>
+                    </div>
+                    
+                    <!-- Country Dropdown -->
+                    <div class="col-md-6 mb-3 field-country_id">
+                        <label for="country_id">Country <span class="text-danger">*</span></label>
+                        <select name="country_id" id="country_id" class="form-select form-select-sm" required="required">
+                            <option value="">Select Country</option>
+                            <t t-foreach="countries" t-as="country">
+                                <option t-att-value="country.id"
+                                        t-esc="country.name"
+                                        t-att-selected="country.id == country_id and 'selected' or None"/>
+                            </t>
+                        </select>
+                    </div>
+
+                    <!-- State Dropdown (Dynamic) -->
+                    <div class="col-md-6 mb-3 field-state_id">
+                        <label for="state_id">State/Region</label>
+                        <select name="state_id" id="state_id" class="form-select form-select-sm">
+                            <option value="">Select State</option>
+                            <t t-foreach="states" t-as="state">
+                                <option t-att-value="state.id"
+                                        t-esc="state.name"
+                                        t-att-data-country="state.country_id.id"
+                                        t-att-selected="state.id == state_id and 'selected' or None"/>
+                            </t>
+                        </select>
+                    </div>
+                    
+                    <!-- JavaScript to update state options based on selected country -->
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const countrySelect = document.getElementById('country_id');
+                            const stateSelect = document.getElementById('state_id');
+
+                            // Store all states for dynamic filtering
+                            const allStates = Array.from(stateSelect.options).slice(1);
+                            
+                            // Update state options based on the selected country
+                            function updateStateOptions() {
+                                const selectedCountry = countrySelect.value;
+                                stateSelect.innerHTML = '<option value="">Select State</option>';
+                                allStates
+                                    .filter(option => option.getAttribute('data-country') === selectedCountry)
+                                    .forEach(option => stateSelect.add(option.cloneNode(true)));
+                            }
+
+                            // Initialize and update on change
+                            updateStateOptions();
+                            countrySelect.addEventListener('change', updateStateOptions);
+                        });
+                    </script>
+                </t>
+                
+            </xpath>
+
+            <xpath expr="//div[hasclass('field-password')]" position="replace">
+                <div class="mb-3 field-password pt-2">
+                    <label for="password">Password <span class="text-danger">*</span></label>
+                    <input type="password" name="password" id="password" class="form-control form-control-sm"
+                        required="required" t-att-autofocus="'autofocus' if only_passwords else None"/>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[hasclass('field-confirm_password')]" position="replace">
+                <div class="mb-3 field-confirm_password">
+                    <label for="confirm_password">Confirm Password <span class="text-danger">*</span></label>
+                    <input type="password" name="confirm_password" id="confirm_password" class="form-control form-control-sm" required="required"/>
+                </div>
+            </xpath>            
+
+            <!-- Append custom checkbox fields after the confirm password field -->
+            <xpath expr="//div[hasclass('field-confirm_password')]" position="after">
+                <t t-if="only_passwords != 1">
+                    <div class="mb-3 field-x_dscape_subscribe" name="x_dscape_subscribe">
+                        <div class="form-check">
+                            <!-- Set t-att-checked so that if the value equals 'true', the checkbox is pre-checked -->
+                            <input class="form-check-input" type="checkbox" name="x_dscape_subscribe" id="x_dscape_subscribe"
+                                t-att-checked="x_dscape_subscribe if x_dscape_subscribe is not None else True"/>
+                            <label class="form-check-label" for="x_dscape_subscribe">
+                                Subscribe to our newsletter
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 field-x_dscape_privacy_policy" name="x_dscape_privacy_policy">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="x_dscape_privacy_policy" id="x_dscape_privacy_policy" required="required" t-att-checked="x_dscape_privacy_policy == 'true'"/>
+                            <label class="form-check-label" for="x_dscape_privacy_policy">
+                                I agree to the <a href="/privacy-policy" target="_blank">Terms &amp; Privacy Policy</a> <span class="text-danger">*</span>
+                            </label>
+                        </div>
+                    </div>
+                </t>
+            </xpath>
+        </template>
+
+        <!-- Inherit the "My Account" link's template -->
+        <template id="user_menu_inherit" inherit_id="portal.my_account_link">
+            <!-- Insert new menu item before "My Account" -->
+            <xpath expr="//a[@href='/my/home']" position="before">
+                <a href="/account-access" 
+                class="dropdown-item ps-3" 
+                role="menuitem">
+                    <i class="fa fa-fw fa-unlock me-1 small text-primary text-primary-emphasis"></i>
+                    Account Access
+                </a>
+            </xpath>
+        </template>
+    </data>
+</odoo>
