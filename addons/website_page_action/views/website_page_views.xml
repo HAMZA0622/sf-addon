@@ -1,0 +1,12 @@
+<odoo>
+  <record id="website_page_action_website_pages_tree_view" model="ir.ui.view">
+    <field name="name">website.page.tree.inherit.dsurl</field>
+    <field name="model">website.page</field>
+    <field name="inherit_id" ref="website.website_pages_tree_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//list/field[@name='is_homepage']" position="before">
+        <field name="ds_edit_link" string="Action"/>
+      </xpath>
+    </field>
+  </record>
+</odoo>

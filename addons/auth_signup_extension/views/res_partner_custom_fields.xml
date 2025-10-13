@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_custom_fields" model="ir.ui.view">
+        <!-- Unique name for the view extension -->
+        <field name="name">res.partner.form.custom.fields</field>
+        <!-- Apply to the res.partner model -->
+        <field name="model">res.partner</field>
+        <!-- Inherit the base partner form view (adjust the reference if your base view id differs) -->
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- Insert our custom section inside the main sheet of the form -->
+            <xpath expr="//sheet" position="inside">
+                <!-- New group for custom fields with a title -->
+                <group string="Additional fields">
+                    <!-- If the field exists on the model, it will be rendered -->
+                    <field name="x_dscape_sales_rep" placeholder="Sales Representative"/>
+                    <field name="x_dscape_occupation" placeholder="Occupation"/>
+                    <!-- The checkbox fields are rendered with a boolean widget -->
+                    <field name="x_dscape_subscribe" widget="boolean_toggle" options="{'terminology': 'Subscribe'}"/>
+                    <field name="x_dscape_privacy_policy" widget="boolean_toggle" options="{'terminology': 'Privacy Policy'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

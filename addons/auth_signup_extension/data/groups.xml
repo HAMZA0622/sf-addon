@@ -1,0 +1,6 @@
+<odoo>
+    <record id="group_user_account_approval" model="res.groups">
+        <field name="name">User Account Approval</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+</odoo>
