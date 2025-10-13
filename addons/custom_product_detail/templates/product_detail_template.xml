@@ -36,7 +36,7 @@
                     <!--                   Section 2: Finishes Options section start-->
 
                     <div class="col-lg-8 col-md-12">
-                        <div class="row" id="custom_product_details" t-if="combination_info['combination']">
+                        <div class="row" id="custom_product_details">
                             <h4 class="custom-heading">FINISHES OPTIONS</h4>
                             <div class="col">
                                 <t t-call="custom_product_detail.custom_variants">
@@ -440,7 +440,7 @@
     </template>
 
     <template id="inherit_shop_product_image" inherit_id="website_sale.shop_product_image">
-        <xpath expr="//div[@name='o_img_with_max_suggested_width']" position="attributes">
+        <xpath expr="//*[@name='o_img_with_max_suggested_width']" position="attributes">
             <attribute name="t-options">{
                     'widget': 'image',
                     'preview_image': 'image_1920',
@@ -449,7 +449,7 @@
                     'zoom': product_image.can_image_1024_be_zoomed and 'image_1920',
                 }</attribute>
         </xpath>
-        <xpath expr="//div[@t-else='']" position="attributes">
+        <xpath expr="//*[@t-else='']" position="attributes">
             <attribute name="t-options">{
                 'widget': 'image',
                 'preview_image': 'image_1920',

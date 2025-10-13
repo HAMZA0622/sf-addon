@@ -1,6 +1,6 @@
 {
     'name': 'Custom Product Detail',
-    'version': '18.0.1.0',
+    'version': '19.0.1.0',
     'summary': 'Custom Product Detail for Odoo 18 website sale',
     'description': 'This module provides a custom product detail for Odoo 18',
     'category': 'Website',

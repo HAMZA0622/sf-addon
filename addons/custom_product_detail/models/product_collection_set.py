@@ -6,6 +6,7 @@ class ProductCollectionSet(models.Model):
     _description = "Product Collection Set"
     _rec_name = 'name'
 
+
     name = fields.Char()
     description = fields.Text()
     sequence = fields.Integer(string="Sequence", help="Determine the display order", index=True, default=20)
