@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="inherited_product_template_form_view" model="ir.ui.view">
+            <field name="name">inherited.product.template.form.view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_tag_ids']" position="before">
+                    <field name="product_collection_id"/>
+                    <field name="is_quick_ship"/>
+                    <field name="is_ready_to_ship"/>
+                    <field name="is_made_in_usa"/>
+                </xpath>
+                <xpath expr="//page[@name='general_information']" position="after">
+                    <page name="dimension" string="Dimension">
+                        <div class="d-flex align-items-baseline mb-2">
+                            <span class="ms-2 me-3">Hide Dimension</span>
+                            <field name="hide_dimension" class="mt-2"/>
+                        </div>
+                        <div class="d-flex align-items-baseline mb-2">
+                            <span class="ms-2 me-3">Enable Multiple Dimensions</span>
+                            <field name="is_multiple_dimension" class="mt-2"/>
+                        </div>
+                        <!-- <field name="dimension_value_lines" widget="one2many" invisible="is_multiple_dimension">
+                            <list string="Dimension" editable="bottom">
+                                <field name="dimension_type_id"/>
+                                <field name="dimension_value"/>
+                            </list>
+                        </field> -->
+
+                        <!--For multiple dimensions-->
+                        <field name="dimension_set_ids" widget="one2many" invisible="not is_multiple_dimension">
+                            <list string="Dimension Set">
+                                <field name='sequence' widget="handle"/>
+                                <field name="name"/>
+                                <field name="d_img_1" string="Dimension Image 1" widget="image" class="oe_avatar"/>
+                                <field name="d_img_2" string="Dimension Image 2" widget="image" class="oe_avatar"/>
+                            </list>
+                            <form>
+                                <div class="d-flex align-items-baseline mb-3">
+                                    <span class="me-3">Dimension Set</span>
+                                    <field name="name"/>
+                                </div>
+                                <group>
+                                    <field name="d_img_1" string="Dimension Image 1" widget="image" class="oe_avatar"/>
+                                     <field name="d_img_2" string="Dimension Image 2" widget="image" class="oe_avatar"/>
+                                </group>
+                                <group string="Dimension">
+                                    <group>
+                                        <field name="d_width" string="Width"/>
+                                        <field name="d_length" string="Length"/>
+                                        <field name="d_depth" string="Depth"/>
+                                        <field name="d_height" string="Height"/>
+                                        <field name="d_thickness" string="Thickness"/>
+                                        <field name="d_arm_height" string="Arm Height"/>
+                                    </group>
+                                    <group>
+                                        <field name="d_seat_width" string="Seat Width"/>
+                                        <field name="d_seat_depth" string="Seat Depth"/>
+                                        <field name="d_seat_height" string="Seat Height"/>
+                                        <field name="d_seat_diameter" string="Seat Diameter"/>
+                                        <field name="d_diameter" string="Diameter"/>
+                                        <field name="d_weight" string="Weight"/>
+                                        <field name="d_stackability" string="Stackability"/>
+                                    </group>
+                                </group>
+                            </form>
+                        </field>
+                        <!-- Width, Length, Depth, Height, Thickness, Arm Height, Seat Width, Seat Depth, Seat Height, Diameter, Weight, and Stackability -->
+                        <group string="Dimension" invisible="is_multiple_dimension">
+                            <group>
+                                <field name="d_width" string="Width"/>
+                                <field name="d_length" string="Length"/>
+                                <field name="d_depth" string="Depth"/>
+                                <field name="d_height" string="Height"/>
+                                <field name="d_thickness" string="Thickness"/>
+                                <field name="d_arm_height" string="Arm Height"/>
+                            </group>
+                            <group>
+                                <field name="d_seat_width" string="Seat Width"/>
+                                <field name="d_seat_depth" string="Seat Depth"/>
+                                <field name="d_seat_height" string="Seat Height"/>
+                                <field name="d_seat_diameter" string="Seat Diameter"/>
+                                <field name="d_diameter" string="Diameter"/>
+                                <field name="d_weight" string="Weight"/>
+                                <field name="d_stackability" string="Stackability"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="spec_pdf"/>
+                                <field name="atlantic_collection_pdf"/>
+                                <field name="d_img_1" string="Dimension Image 1" widget="image" class="oe_avatar"/>
+                                <field name="d_img_2" string="Dimension Image 2" widget="image" class="oe_avatar"/>
+                            </group>
+                            <group>
+                                <field name="show_table_sheet" string="Show Table Sheet"/>
+                                <field name="table_sheet_link" string="Table Sheet Link"/>
+                            </group>
+                        </group>
+                        
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_product_template_filter_inh" model="ir.ui.view">
+            <field name="name">product.template.search.inh</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <filter name="filter_to_sell" position="before">
+                    <separator/>
+                    <filter name="no_image" string="No Image" domain="[('image_1920', '=', False)]"/>
+                    <filter name="no_spec_sheet" string="No Spec Sheet" domain="[('spec_pdf', '=', False)]"/>
+                    <filter name="no_collection_sheet" string="No Collection Sheet" domain="[('atlantic_collection_pdf', '=', False)]"/>
+                    <filter name="no_dimension_image" string="No Dimension Image" domain="['|', ('d_img_1', '=', False), ('d_img_2', '=', False)]"/>
+                    <separator/>
+                </filter>
+            </field>
+        </record>
+    </data>
+</odoo>

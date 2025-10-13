@@ -1,0 +1,64 @@
+<odoo>
+    <template id="quick_ship_products_template" name="Quick Ship Products">
+        <t t-call="website.layout">
+
+            <div class="px-5">
+                <div class="text-center" style="margin-top:70px; margin-bottom:70px;">
+                    <h4>
+                        <span class="text-danger">QUICK SHIP</span>
+                        <span>PRODUCTS</span>
+                    </h4>
+                </div>
+                <div class="banner-container">
+                    <img src="/custom_product_detail/static/img/banner01.jpg"
+                         class="banner-image"/>
+                </div>
+
+                <!-- Fast & Simple Shipping Section -->
+                <div class="px-3 mb-5">
+                    <h4 class="mt-3 mb-3" style="font-weight: 600;">
+                        FAST &amp; SIMPLE SHIPPING WITH DECOSCAPE FURNITURE
+                    </h4>
+                    <p class="mb-3" style="color: #777; font-size: 13px; font-weight:600;">
+                        Decoscape Furniture makes it easy to order your outdoor commercial grade patio furniture by using
+                        our Quick Ship program.
+                    </p>
+                    <ul style="list-style: none; padding-left: 0; color: #777; font-size: 14px; line-height: 2;">
+                        <li>• No substitutions</li>
+                        <li>• Limited Quantities</li>
+                        <li style="color: red;">• Standard Options Only</li>
+                    </ul>
+                    <p class="mt-3" style=" color: #777; font-size: 13px; font-weight:600;">
+                        Contact <a href="mailto:sales@decoscape.com">
+                        sales@decoscape.com
+                    </a> with any general questions you may have regarding our quick-ship products or program.
+                    </p>
+                </div>
+
+
+                <!-- Product Template Grid -->
+                <hr class="mx-3"/>
+                <div class="container">
+                    <div class="row justify-content-center" style="margin-top:50px;">
+                        <t t-foreach="quick_ship_products" t-as="product" t-key="product.id">
+                            <div class="col-lg-4 col-md-6 col-sm-12 mb-5 d-flex justify-content-center">
+                                <a t-att-href="'/shop/product/' + str(product.id)">
+                                <div class="product-card">
+                                    <!-- Product Image -->
+                                    <img t-att-src="('/web/image/product.template/' + str(product.id) + '/image_1920')"
+                                         class="product-image" alt="Product Image"/>
+
+                                    <!-- Product Name -->
+                                    <div class="product-title">
+                                        <t t-esc="product.name"/>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

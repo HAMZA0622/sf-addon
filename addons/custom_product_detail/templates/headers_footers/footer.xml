@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Footer templates -->
+    <!-- <template id="custom_footer_1" inherit_id="website.layout" name="Default" active="False">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+                <section class="footer-top">
+                    <div class="container">
+                        <div class="row g-3">
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="d-flex footer-feature">
+                                    <div class="icon">
+                                        <img src="/theme_alan/static/src/img/footer_icon_delivery.svg" />
+                                    </div>
+                                    <div class="col">
+                                        <h5>Worldwide Delivery</h5>
+                                        <p>120+ countries and regions worldwide</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="d-flex footer-feature">
+                                    <div class="icon">
+                                        <img src="/theme_alan/static/src/img/footer_icon_payment.svg" />
+                                    </div>
+                                    <div class="col">
+                                        <h5>Secure Payment</h5>
+                                        <p>Pay with popular and secure payment methods</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="d-flex footer-feature">
+                                    <div class="icon">
+                                        <img src="/theme_alan/static/src/img/footer_icon_policy.svg" />
+                                    </div>
+                                    <div class="col">
+                                        <h5>60-day Return Policy</h5>
+                                        <p>Merchandise must be returned within 60 days.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="d-flex footer-feature">
+                                    <div class="icon">
+                                        <img src="/theme_alan/static/src/img/footer_icon_help.svg" />
+                                    </div>
+                                    <div class="col">
+                                        <h5>24/7 Help Center</h5>
+                                        <p>We'll respond to you within 24/7 hours</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+                <section class="footer-middle">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <div class="row">
+                                    <div class="col-6 col-lg-3">
+                                        <div class="footer-title">
+                                            <h5>Get to Know Us</h5>
+                                        </div>
+                                        <ul class="list-unstyled m-0 footer-link">
+                                            <li><a href="#">About Us</a></li>
+                                            <li><a href="#">News and Blog</a></li>
+                                            <li><a href="#">Careers</a></li>
+                                            <li><a href="#">Investors</a></li>
+                                            <li><a href="#">Contact Us</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-6 col-lg-3">
+                                        <div class="footer-title">
+                                            <h5>Customer Service</h5>
+                                        </div>
+                                        <ul class="list-unstyled m-0 footer-link">
+                                            <li><a href="#">Help Center</a></li>
+                                            <li><a href="#">FAQ’s</a></li>
+                                            <li><a href="#">Accessibility</a></li>
+                                            <li><a href="#">Feedback</a></li>
+                                            <li><a href="#">Size Guide</a></li>
+                                            <li><a href="#">Payment Method</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-6 col-lg-3">
+                                        <div class="footer-title">
+                                            <h5>Orders and Returns</h5>
+                                        </div>
+                                        <ul class="list-unstyled m-0 footer-link">
+                                            <li><a href="#">Track Order</a></li>
+                                            <li><a href="#">Shipping and Delivery</a></li>
+                                            <li><a href="#">Return and Exchange</a></li>
+                                            <li><a href="#">Price Match Guarantee</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-6 col-lg-3">
+                                        <div class="footer-title">
+                                            <h5>Legal</h5>
+                                        </div>
+                                        <ul class="list-unstyled m-0 footer-link">
+                                            <li><a href="#">Privacy Policy</a></li>
+                                            <li><a href="#">Terms of Use</a></li>
+                                            <li><a href="#">Legal</a></li>
+                                            <li><a href="#">Site Map</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="footer-title">
+                                            <h5>We accept</h5>
+                                        </div>
+                                        <div class="">
+                                            <img src="/theme_alan/static/src/img/footer-payment.png" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-3 mt-4 mt-lg-0">
+                                <ul class="list-unstyled m-0 footer-address">
+                                    <li class="d-flex fot-adrs">
+                                        <div class="f-icon">
+                                            <i class="fa fa-map-o"></i>
+                                        </div>
+                                        <div class="f-text">
+                                            <h5>Address</h5>
+                                            <p>250 Executive Park Blvd, Suite 3400 CA 94134, USA</p>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex fot-adrs">
+                                        <div class="f-icon">
+                                            <i class="fa fa-envelope"></i>
+                                        </div>
+                                        <div class="f-text">
+                                            <h5>Email</h5>
+                                            <p><a href="#">info@yourcompany.com</a></p>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex fot-adrs">
+                                        <div class="f-icon">
+                                            <i class="fa fa-phone"></i>
+                                        </div>
+                                        <div class="f-text">
+                                            <h5>Phone</h5>
+                                            <p><a href="#">+1 (650) 555-0111</a></p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template> -->
+
+
+
+</odoo>

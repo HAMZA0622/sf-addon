@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="product_description_extended_grid" inherit_id="website_sale.products_item" name="Product Description in Product Grid">
+        <xpath expr="//*[hasclass('o_wsale_products_item_title')]" position="after">
+            <t t-set="tmpl" t-value="product.product_tmpl_id if 'product_tmpl_id' in product else product"/>
+            <t t-if="tmpl.x_product_name_extended">
+                <div class="product-extra-description mt-2 small text-secondary" contenteditable="false">
+                    <t t-out="tmpl.x_product_name_extended"/>
+                </div>
+            </t>
+        </xpath>
+    </template>
+    <template id="extend_related_products" inherit_id="custom_product_detail.inherited_product" name="Extend Related Products with Extra Description">
+        <xpath expr="//div[@id='related_products']//h5[@class='card-title']" position="after">
+            <t t-set="tmpl" t-value="related_product.product_tmpl_id if 'product_tmpl_id' in related_product else related_product"/>
+            <t t-if="tmpl.x_product_name_extended">
+                <div class="product-extra-description text-decoration-none" contenteditable="false">
+                    <t t-out="tmpl.x_product_name_extended"/>
+                </div>
+            </t>
+        </xpath>
+    </template>
+    <template id="collection_page_template_extended" inherit_id="custom_product_detail.collection_page_template" name="Extend Product Card with Extra Description">
+        <xpath expr="//div[@class='product-title']" position="after">
+            <t t-set="tmpl" t-value="product.product_tmpl_id if 'product_tmpl_id' in product else product"/>
+            <t t-if="tmpl.x_product_name_extended">
+                <div class="product-extra-description mt-1 small text-muted" contenteditable="false">
+                    <t t-out="tmpl.x_product_name_extended"/>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

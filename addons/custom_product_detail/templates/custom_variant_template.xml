@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="custom_variants">
+        <ul id="custom_variants" t-attf-class="list-unstyled js_add_cart_variants mb-0 #{ul_class}">
+            <t t-foreach="product.valid_product_template_attribute_line_ids" t-as="ptal">
+                <t t-set="attribute" t-value="ptal.attribute_id"/>
+                <t t-set="ptavs" t-value="ptal.product_template_value_ids._only_active()"/>
+                <t t-set="single" t-value="len(ptavs) == 1"/>
+
+                <!-- Attributes selection is hidden if there is only one value available and it's not a custom value -->
+                <li t-att-data-attribute_id="attribute.id"
+                    t-att-data-attribute_name="attribute.name"
+                    t-att-data-attribute_display_type="attribute.display_type"
+                    t-attf-class="variant_attribute">
+
+                    <!-- Used to customize layout if the only available attribute value is custom -->
+                    <t t-set="single_and_custom" t-value="single and ptavs[0].is_custom"/>
+                    <!--                    <strong t-field="ptal.attribute_id.name"/>-->
+
+                    <button
+                        t-attf-class="mt-3 btn #{'js-expand-btn' if attribute.display_type == 'color' else ''} "
+                        style="text-transform: uppercase; background: none; border: none; padding: 0; cursor: pointer; display: inline;">
+                        <span style="text-decoration: none;">-</span>
+                        <span style="text-decoration: underline;">
+                            <t t-esc="ptal.attribute_id.name"/>
+                        </span>
+                    </button>
+
+
+
+                    <t t-if="attribute.display_type == 'select'">
+                        <select
+                                t-att-data-attribute_id="attribute.id"
+                                t-attf-class="form-select mt-2 css_attribute_select o_wsale_product_attribute js_custom_variant_change #{attribute.create_variant} #{'d-none' if single_and_custom else ''}"
+                                t-att-name="'ptal-%s' % ptal.id">
+                            <t t-foreach="ptavs" t-as="ptav">
+                                <option t-att-value="ptav.id"
+                                        t-att-data-attribute-value-id="ptav.product_attribute_value_id.id"
+                                        t-att-data-value_id="ptav.id"
+                                        t-att-data-value_name="ptav.name"
+                                        t-att-data-attribute_name="attribute.name"
+                                        t-att-data-is_custom="ptav.is_custom"
+                                        t-att-selected="ptav in combination"
+                                        t-att-data-is_single="single"
+                                        t-att-data-is_single_and_custom="single_and_custom">
+
+                                    <span t-field="ptav.name"/>
+                                    <t t-call="website_sale.badge_extra_price"/>
+                                </option>
+                            </t>
+                        </select>
+                    </t>
+
+                    <t t-elif="attribute.display_type in ('radio', 'multi')">
+                        <ul t-att-data-attribute_id="attribute.id"
+                            t-attf-class="list-inline list-unstyled o_wsale_product_attribute #{'d-none' if single_and_custom else ''}">
+                            <t t-foreach="ptavs" t-as="ptav">
+                                <li class="list-inline-item mb-3 js_attribute_value" style="margin: 0;">
+                                    <label class="col-form-label">
+                                        <div class="form-check">
+                                            <input t-att-type="'radio' if attribute.display_type == 'radio' else 'checkbox'"
+                                                   t-attf-class="form-check-input js_custom_variant_change #{attribute.create_variant}"
+                                                   t-att-checked="ptav in combination"
+                                                   t-att-name="'ptal-%s' % ptal.id"
+                                                   t-att-value="ptav.id"
+                                                   t-att-data-attribute-value-id="ptav.product_attribute_value_id.id"
+                                                   t-att-data-value_id="ptav.id"
+                                                   t-att-data-value_name="ptav.name"
+                                                   t-att-data-attribute_name="attribute.name"
+                                                   t-att-data-is_custom="ptav.is_custom"
+                                                   t-att-data-is_single="single if ptal.attribute_id.display_type != 'multi' else False"
+                                                   t-att-data-is_single_and_custom="single_and_custom"/>
+                                            <div class="radio_input_value form-check-label">
+                                                <span t-field="ptav.name"/>
+                                                <t t-call="website_sale.badge_extra_price"/>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </li>
+                            </t>
+                        </ul>
+                    </t>
+
+                    <t t-elif="attribute.display_type == 'pills'">
+                        <ul t-att-data-attribute_id="attribute.id"
+                            t-attf-class="btn-group-toggle mt-2 list-inline list-unstyled o_wsale_product_attribute #{'d-none' if single_and_custom else ''}"
+                            data-bs-toggle="buttons">
+                            <t t-foreach="ptavs" t-as="ptav">
+                                <li t-attf-class="o_variant_pills btn btn-primary mb-1 list-inline-item js_attribute_value #{'active' if ptav in combination else ''}">
+                                    <input type="radio"
+                                           t-attf-class="js_custom_variant_change #{attribute.create_variant}"
+                                           t-att-checked="ptav in combination"
+                                           t-att-name="'ptal-%s' % ptal.id"
+                                           t-att-value="ptav.id"
+                                           t-att-data-value_id="ptav.id"
+                                           t-att-id="ptav.id"
+                                           t-att-data-attribute-value-id="ptav.product_attribute_value_id.id"
+                                           t-att-data-value_name="ptav.name"
+                                           t-att-data-attribute_name="attribute.name"
+                                           t-att-data-is_custom="ptav.is_custom"
+                                           t-att-data-is_single_and_custom="single_and_custom"
+                                           t-att-autocomplete="off"/>
+                                    <label class="radio_input_value o_variant_pills_input_value"
+                                           t-att-for="ptav.id">
+                                        <span t-field="ptav.name"/>
+                                        <t t-call="website_sale.badge_extra_price"/>
+                                    </label>
+                                </li>
+                            </t>
+                        </ul>
+                    </t>
+
+                    <!--                    color attributes image section start-->
+
+                    <t t-elif="attribute.display_type == 'color'">
+                        <div class="row mt-2">
+                            <div class="col-6 col-sm-4 col-md-3 col-lg-2"
+                                 t-foreach="ptavs" t-as="ptav">
+                                <t t-set="img_style"
+                                   t-value="'background:url(/web/image/product.template.attribute.value/%s/image_1024); background-size:cover;' % ptav.id if ptav.image else ''"
+                                />
+                                <t t-set="color_style"
+                                   t-value="'background:' + str(ptav.html_color or ptav.name if not ptav.is_custom else '')"
+                                />
+                                <!-- Color/Images in Boxes -->
+                                <label t-att-for="ptav.id"
+                                       t-attf-class="css_custom_attribute_color p-3 custom-label-div custom-display-none-att #{'active' if ptav in combination else ''} #{'custom_value' if ptav.is_custom else ''} #{'transparent' if (not ptav.is_custom and not ptav.html_color) else ''}"
+                                       t-attf-style="#{img_style or color_style}">
+                                    <div class="hover-wrapper position-relative">
+                                        <div class="square-box d-flex align-items-center justify-content-center">
+                                        </div>
+                                        <div t-attf-class="#{'hover-popup' if ptav.image else ''}"
+                                             t-attf-style="#{img_style if ptav.image else ''}">
+                                        </div>
+                                    </div>
+                                    <div class="text-center ptav-name">
+                                        <t t-esc="ptav.name" />
+                                    </div>
+                                    <input type="radio"
+                                           t-att-id="ptav.id"
+                                           t-attf-class="js_custom_variant_change custom-input-class #{attribute.create_variant}"
+                                           t-att-checked="ptav in combination"
+                                           t-att-name="'ptal-%s' % ptal.id"
+                                           t-att-value="ptav.id"
+                                           t-att-title="ptav.name"
+                                           t-att-data-attribute-value-id="ptav.product_attribute_value_id.id"
+                                           t-att-data-value_id="ptav.id"
+                                           t-att-data-value_name="ptav.name"
+                                           t-att-data-attribute_name="attribute.name"
+                                           t-att-data-is_custom="ptav.is_custom"
+                                           t-att-data-is_single="single"
+                                           t-att-data-is_single_and_custom="single_and_custom"/>
+                                </label>
+                            </div>
+                        </div>
+
+                    </t>
+<!--                    Color attributes image section end   -->
+
+
+                    <!--                    Color attributes image section end   -->
+
+
+                </li>
+            </t>
+        </ul>
+    </template>
+</odoo>
