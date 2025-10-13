@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     "name": "Download Media",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "description": "Website Customisations",
     "category": "Website",
     "summary": "Website",

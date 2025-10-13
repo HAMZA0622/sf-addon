@@ -1,6 +1,6 @@
 {
     'name': 'Custom Product Detail',
-    'version': '18.0.1.0',
+    'version': '19.0.1.0',
     'summary': 'Custom Product Detail for Odoo 18 website sale',
     'description': 'This module provides a custom product detail for Odoo 18',
     'category': 'Website',
@@ -16,7 +16,7 @@
         'templates/product_finishes_page_template.xml',
         'templates/attribute_detail_page_template.xml',
         'templates/headers_footers/header.xml',
-        'templates/headers_footers/options.xml',
+        # 'templates/headers_footers/options.xml',
         'templates/templates.xml',
         'templates/collection_page_template.xml',
         'templates/category_page_template.xml',
@@ -38,6 +38,10 @@
 
             'custom_product_detail/static/src/js/*.js',
             'custom_product_detail/static/src/scss/*.scss',
+        ],
+        'website.assets_wysiwyg': [
+        'custom_product_detail/static/src/builder/plugins/options/header/custom_header_option.js',
+        'custom_product_detail/static/src/builder/plugins/options/header/custom_header_option.xml',
         ],
     },
     'installable': True,

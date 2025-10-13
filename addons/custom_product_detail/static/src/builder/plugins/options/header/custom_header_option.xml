@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="custom_product_detail.CustomHeaderOption">
+        <div class="o_we_custom_header_option mt-2">
+            <div class="o_panel_header">
+                <span>Custom Headers</span>
+            </div>
+            <div class="d-flex flex-wrap gap-2 mt-2">
+                <button
+                    type="button"
+                    class="btn btn-light"
+                    t-on-click="onClickCustomHeader1"
+                    title="Custom Header 1">
+                    <img t-att-src="'/custom_product_detail/static/img/header_1.png'" 
+                         alt="Header 1" width="80" height="40"/>
+                </button>
+            </div>
+        </div>
+    </t>
+</templates>
