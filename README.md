@@ -2,6 +2,4 @@
 
 just run
 
-docker compose up --build
-and for linux
-sudo docker compose up --build
+docker compose up --build can use sudo before the command if using linux
